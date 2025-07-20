@@ -3,25 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HellerMind - The Ultimate Private AI-Powered Photo Gallery. Secure, offline, and cloud-free photo management with advanced AI recognition.">
+    <meta name="keywords" content="AI photo gallery, private photo management, offline photo storage, secure photo gallery, AI photo recognition">
+    <meta name="author" content="HellerMind">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="HellerMind - Private AI Photo Gallery">
+    <meta property="og:description" content="The Ultimate Private AI-Powered Photo Gallery—Secure, Offline, and Cloud-Free.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hellermind.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HellerMind - Private AI Photo Gallery">
+    <meta name="twitter:description" content="The Ultimate Private AI-Powered Photo Gallery—Secure, Offline, and Cloud-Free.">
+    
     <title>HellerMind - AI Gallery</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="image/loading_gif.gif" as="image">
+    <link rel="preload" href="image/logo.gif" as="image">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
     <style>
+        /* CSS Custom Properties for better maintainability */
+        :root {
+            --primary-color: #007aff;
+            --primary-dark: #005cbf;
+            --primary-darker: #004494;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --text-muted: #86868b;
+            --bg-primary: #000000;
+            --bg-secondary: rgba(255, 255, 255, 0.05);
+            --bg-hover: rgba(255, 255, 255, 0.08);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-hover: rgba(255, 255, 255, 0.2);
+            --shadow-primary: rgba(0, 122, 255, 0.4);
+            --shadow-secondary: rgba(0, 122, 255, 0.2);
+            --shadow-tertiary: rgba(0, 122, 255, 0.1);
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 20px;
+            --border-radius-sm: 16px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --spacing-xxl: 64px;
+        }
+
+        /* Reset and base styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-            overflow-x: hidden;
-            background: #000000;
-            min-height: 100vh;
-            color: #f5f5f7;
-            font-weight: 300;
-            letter-spacing: 0.01em;
+        *::before,
+        *::after {
+            box-sizing: border-box;
         }
 
-        /* Enhanced spotlight background */
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow-x: hidden;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+            font-weight: 300;
+            letter-spacing: 0.01em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* Focus styles for accessibility */
+        :focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Skip to main content for screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        /* Enhanced spotlight background with better performance */
         .spotlight-bg {
             position: fixed;
             top: 0;
@@ -45,13 +134,21 @@
             background-size: cover;
             z-index: -1;
             animation: breathe 8s ease-in-out infinite;
+            will-change: transform, opacity;
         }
 
         @keyframes breathe {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.02); opacity: 1; }
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.8; 
+            }
+            50% { 
+                transform: scale(1.02); 
+                opacity: 1; 
+            }
         }
 
+        /* Optimized floating particles */
         .floating-particles {
             position: fixed;
             width: 100%;
@@ -60,6 +157,7 @@
             left: 0;
             z-index: 1;
             pointer-events: none;
+            will-change: transform;
         }
 
         .particle {
@@ -68,6 +166,7 @@
             border-radius: 50%;
             animation: float 30s infinite linear;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            will-change: transform, opacity;
         }
 
         @keyframes float {
@@ -83,6 +182,7 @@
             }
         }
 
+        /* Main container */
         .container {
             position: relative;
             z-index: 10;
@@ -91,44 +191,35 @@
             flex-direction: column;
         }
 
+        /* Enhanced header */
         .header {
             text-align: center;
-            padding: 60px 20px 40px;
+            padding: var(--spacing-xxl) var(--spacing-md) var(--spacing-xl);
             animation: fadeInDown 1.5s ease-out;
         }
 
         .logo-container {
-            margin-bottom: 40px;
+            margin-bottom: var(--spacing-xl);
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
         }
 
-        @keyframes pulse {
-            0%, 100% { 
-                transform: scale(1);
-                box-shadow: 0 8px 32px rgba(0, 122, 255, 0.4), 0 0 20px rgba(0, 122, 255, 0.2);
-            }
-            50% { 
-                transform: scale(1.05);
-                box-shadow: 0 12px 40px rgba(0, 122, 255, 0.6), 0 0 30px rgba(0, 122, 255, 0.4);
-            }
-        }
-
         .title {
-            font-size: 4.5rem;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 100;
-            color: #f5f5f7;
-            margin-bottom: 20px;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
             letter-spacing: -0.03em;
             line-height: 1.1;
-            background: linear-gradient(135deg, #f5f5f7, #a1a1a6);
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-shadow: 0 2px 20px rgba(255, 255, 255, 0.1);
             animation: titleGlow 4s ease-in-out infinite;
+            will-change: filter;
         }
 
         @keyframes titleGlow {
@@ -137,48 +228,52 @@
         }
 
         .subtitle {
-            font-size: 1.4rem;
-            color: #a1a1a6;
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
+            color: var(--text-secondary);
             font-weight: 300;
             letter-spacing: 0.005em;
             max-width: 700px;
-            margin: 0 auto 40px; /* Added margin-bottom to create space */
+            margin: 0 auto var(--spacing-xl);
             line-height: 1.5;
             text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
         }
 
+        /* Enhanced main content */
         .main-content {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding: var(--spacing-xl) var(--spacing-md);
             max-width: 1400px;
             margin: 0 auto;
         }
 
+        /* Improved features grid */
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 30px;
-            margin-bottom: 80px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xxl);
             width: 100%;
             max-width: 1200px;
         }
 
+        /* Enhanced feature cards */
         .feature-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            background: linear-gradient(135deg, var(--bg-secondary), rgba(255, 255, 255, 0.02));
             backdrop-filter: blur(25px) saturate(180%);
-            border-radius: 20px;
-            padding: 60px 45px;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-xxl) var(--spacing-xl);
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border-color);
+            transition: all 0.5s var(--transition-smooth);
             animation: fadeInUp 1.5s ease-out;
             position: relative;
             overflow: hidden;
             transform-style: preserve-3d;
+            will-change: transform;
         }
 
         .feature-card::before {
@@ -209,8 +304,8 @@
 
         .feature-card:hover {
             transform: translateY(-12px) rotateX(5deg);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-            border-color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, var(--bg-hover), rgba(255, 255, 255, 0.03));
+            border-color: var(--border-hover);
             box-shadow: 
                 0 25px 80px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(255, 255, 255, 0.1),
@@ -219,10 +314,11 @@
 
         .feature-icon {
             font-size: 3.5rem;
-            margin-bottom: 35px;
+            margin-bottom: var(--spacing-lg);
             display: block;
             filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
             animation: iconFloat 3s ease-in-out infinite;
+            will-change: transform;
         }
 
         @keyframes iconFloat {
@@ -232,8 +328,8 @@
 
         .feature-title {
             font-size: 1.6rem;
-            color: #f5f5f7;
-            margin-bottom: 25px;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
             font-weight: 400;
             letter-spacing: -0.01em;
             line-height: 1.2;
@@ -241,7 +337,7 @@
         }
 
         .feature-description {
-            color: #a1a1a6;
+            color: var(--text-secondary);
             line-height: 1.6;
             font-size: 1.1rem;
             font-weight: 300;
@@ -249,30 +345,32 @@
             text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
         }
 
+        /* Enhanced CTA section */
         .cta-section {
             text-align: center;
-            margin-top: 60px;
+            margin-top: var(--spacing-xl);
             position: relative;
         }
 
         .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #007aff, #005cbf, #004494);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark), var(--primary-darker));
             color: #ffffff;
             padding: 22px 55px;
-            border-radius: 16px;
+            border-radius: var(--border-radius-sm);
             text-decoration: none;
             font-size: 1.2rem;
             font-weight: 500;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s var(--transition-smooth);
             box-shadow: 
-                0 8px 30px rgba(0, 122, 255, 0.3),
+                0 8px 30px var(--shadow-primary),
                 0 0 0 1px rgba(255, 255, 255, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
             letter-spacing: -0.005em;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            will-change: transform;
         }
 
         .cta-button::before {
@@ -283,7 +381,7 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: left 0.8s var(--transition-smooth);
         }
 
         .cta-button:hover::before {
@@ -293,7 +391,7 @@
         .cta-button:hover {
             transform: translateY(-4px) scale(1.02);
             box-shadow: 
-                0 15px 50px rgba(0, 122, 255, 0.4),
+                0 15px 50px var(--shadow-primary),
                 0 0 0 1px rgba(255, 255, 255, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.25);
         }
@@ -301,15 +399,16 @@
         .cta-button:active {
             transform: translateY(-2px) scale(1.01);
             box-shadow: 
-                0 8px 25px rgba(0, 122, 255, 0.35),
+                0 8px 25px var(--shadow-primary),
                 0 0 0 1px rgba(255, 255, 255, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
+        /* Enhanced footer */
         .footer {
             text-align: center;
-            padding: 80px 20px;
-            color: #86868b;
+            padding: var(--spacing-xxl) var(--spacing-md);
+            color: var(--text-muted);
             font-size: 0.95rem;
             font-weight: 300;
             letter-spacing: 0.01em;
@@ -350,7 +449,7 @@
             }
         }
 
-        /* Luxury divider - enhanced */
+        /* Enhanced divider */
         .divider {
             width: 120px;
             height: 2px;
@@ -373,75 +472,34 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
         
+        /* Enhanced main GIF */
         .main-gif {
-            width: 150px;
-            height: 150px;
+            width: clamp(120px, 15vw, 150px);
+            height: clamp(120px, 15vw, 150px);
             border-radius: 50%;
             box-shadow: 
-                0 12px 40px rgba(0, 122, 255, 0.4),
-                0 0 30px rgba(0, 122, 255, 0.2),
-                0 0 60px rgba(0, 122, 255, 0.1);
+                0 12px 40px var(--shadow-primary),
+                0 0 30px var(--shadow-secondary),
+                0 0 60px var(--shadow-tertiary);
             animation: mainGifPulse 4s ease-in-out infinite;
             border: 3px solid rgba(0, 122, 255, 0.3);
             position: relative;
             overflow: hidden;
+            will-change: transform;
         }
 
         @keyframes mainGifPulse {
             0%, 100% { 
                 transform: scale(1);
-                box-shadow: 0 12px 40px rgba(0, 122, 255, 0.4), 0 0 30px rgba(0, 122, 255, 0.2), 0 0 60px rgba(0, 122, 255, 0.1);
+                box-shadow: 0 12px 40px var(--shadow-primary), 0 0 30px var(--shadow-secondary), 0 0 60px var(--shadow-tertiary);
             }
             50% { 
                 transform: scale(1.08);
-                box-shadow: 0 20px 60px rgba(0, 122, 255, 0.6), 0 0 50px rgba(0, 122, 255, 0.4), 0 0 100px rgba(0, 122, 255, 0.2);
+                box-shadow: 0 20px 60px var(--shadow-primary), 0 0 50px var(--shadow-secondary), 0 0 100px var(--shadow-tertiary);
             }
         }
 
-        /* Enhanced responsive design */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 3.2rem;
-            }
-            .subtitle {
-                font-size: 1.2rem;
-            }
-            .features {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-            .main-gif {
-                width: 120px;
-                height: 120px;
-            }
-            .feature-card {
-                padding: 45px 35px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                padding: 50px 20px 30px;
-            }
-            .title {
-                font-size: 2.5rem;
-            }
-            .subtitle {
-                font-size: 1.1rem;
-            }
-            .feature-card {
-                padding: 35px 25px;
-            }
-            .cta-button {
-                padding: 18px 45px;
-                font-size: 1.1rem;
-            }
-            .logo-container {
-                gap: 20px;
-            }
-        }
-
-        /* Add some magical sparkles */
+        /* Enhanced sparkles */
         .sparkle {
             position: absolute;
             width: 4px;
@@ -449,58 +507,146 @@
             background: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
             animation: sparkle 2s ease-in-out infinite;
+            will-change: transform, opacity;
         }
 
         @keyframes sparkle {
             0%, 100% { opacity: 0; transform: scale(0); }
             50% { opacity: 1; transform: scale(1); }
         }
+
+        /* Loading state */
+        .loading {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .loaded {
+            opacity: 1;
+        }
+
+        /* Enhanced responsive design */
+        @media (max-width: 768px) {
+            .features {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            .feature-card {
+                padding: var(--spacing-xl) var(--spacing-lg);
+            }
+            .header {
+                padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 50px var(--spacing-md) 30px;
+            }
+            .feature-card {
+                padding: var(--spacing-lg) var(--spacing-md);
+            }
+            .cta-button {
+                padding: 18px 45px;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --text-primary: #ffffff;
+                --text-secondary: #cccccc;
+                --border-color: rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        /* Dark mode support (already dark, but for consistency) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #000000;
+                --text-primary: #f5f5f7;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .spotlight-bg,
+            .floating-particles,
+            .sparkle {
+                display: none;
+            }
+            
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .feature-card {
+                border: 1px solid #ccc;
+                background: white;
+                color: black;
+            }
+        }
     </style>
 </head>
-<body>
-    <div class="spotlight-bg"></div>
-    <div class="floating-particles"></div>
+<body class="loading">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="spotlight-bg" aria-hidden="true"></div>
+    <div class="floating-particles" aria-hidden="true"></div>
 
     <div class="container">
         <header class="header">
             <div class="logo-container">
-                <img src="image/loading_gif.gif" alt="AI Animation" class="main-gif">
+                <img src="image/loading_gif.gif" alt="AI Animation - HellerMind Logo" class="main-gif" loading="eager">
             </div>
             <h1 class="title">HellerMind</h1>
-            <div class="divider"></div>
+            <div class="divider" aria-hidden="true"></div>
             <p class="subtitle">The Ultimate Private AI-Powered Photo Gallery—Secure, Offline, and Cloud-Free.</p>
         </header>
 
-        <main class="main-content">
-            <div class="features">
-                <div class="feature-card">
-                    <span class="feature-icon">🔒</span>
+        <main id="main-content" class="main-content">
+            <section class="features" aria-label="Key Features">
+                <article class="feature-card">
+                    <span class="feature-icon" role="img" aria-label="Security">🔒</span>
                     <h3 class="feature-title">Absolute Privacy & Security</h3>
                     <p class="feature-description">
                         Your photos remain exclusively on your device, protected by our cloud-free, offline technology—ensuring total confidentiality and unmatched data safety.
                     </p>
-                </div>
+                </article>
 
-                <div class="feature-card">
-                    <span class="feature-icon">🤖</span>
+                <article class="feature-card">
+                    <span class="feature-icon" role="img" aria-label="AI Technology">🤖</span>
                     <h3 class="feature-title">Advanced AI Recognition</h3>
                     <p class="feature-description">
                         Instantly organize, identify, and search your photos using powerful built-in AI, without ever connecting to the internet.
                     </p>
-                </div>
+                </article>
 
-                <div class="feature-card">
-                    <span class="feature-icon">⚡</span>
+                <article class="feature-card">
+                    <span class="feature-icon" role="img" aria-label="Performance">⚡</span>
                     <h3 class="feature-title">Blazing-Fast & Intuitive</h3>
                     <p class="feature-description">
                         Experience seamless, lightning-fast navigation and instant access to your gallery—optimized to run smoothly and efficiently, entirely offline.
                     </p>
-                </div>
-            </div>
+                </article>
+            </section>
 
-            <div class="cta-section">
-                <a href="#" class="cta-button">Coming Soon: Privacy First, Always Offline.</a>
-            </div>
+            <section class="cta-section">
+                <a href="#" class="cta-button" aria-label="Learn more about HellerMind coming soon">Coming Soon: Privacy First, Always Offline.</a>
+            </section>
         </main>
 
         <footer class="footer">
@@ -509,143 +655,318 @@
     </div>
 
     <script>
-        // Enhanced particle system
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-
-            const size = Math.random() * 4 + 2;
-            particle.style.width = size + 'px';
-            particle.style.height = size + 'px';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = (Math.random() * 25 + 20) + 's';
-            particle.style.animationDelay = Math.random() * 5 + 's';
-
-            document.querySelector('.floating-particles').appendChild(particle);
-
-            setTimeout(() => {
-                particle.remove();
-            }, 50000);
-        }
-
-        setInterval(createParticle, 600);
-
-        // Add sparkles around the main GIF
-        function createSparkle() {
-            const gif = document.querySelector('.main-gif');
-            if (!gif) return;
-
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            
-            // Adjust position relative to logo-container for better placement
-            const container = gif.parentElement;
-            const rect = gif.getBoundingClientRect();
-            const containerRect = container.getBoundingClientRect();
-
-            const x = (rect.left - containerRect.left) + Math.random() * (rect.width + 60) - 30;
-            const y = (rect.top - containerRect.top) + Math.random() * (rect.height + 60) - 30;
-
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            sparkle.style.animationDelay = Math.random() * 2 + 's';
-
-            container.appendChild(sparkle);
-
-            setTimeout(() => {
-                sparkle.remove();
-            }, 2000);
-        }
-
-        setInterval(createSparkle, 600);
-
-        // Enhanced parallax effect
-        let ticking = false;
-        function updateParallax() {
-            const scrolled = window.pageYOffset;
-            const gif = document.querySelector('.main-gif');
-            
-            if (gif) {
-                // Keep the original main-gif parallax effect
-                gif.style.transform = `translateY(${scrolled * 0.05}px) rotate(${scrolled * 0.02}deg)`;
+        // Performance optimized particle system
+        class ParticleSystem {
+            constructor() {
+                this.container = document.querySelector('.floating-particles');
+                this.particles = new Set();
+                this.maxParticles = 50;
+                this.createInterval = null;
+                this.cleanupInterval = null;
+                this.init();
             }
-            
-            ticking = false;
+
+            init() {
+                this.createInterval = setInterval(() => {
+                    if (this.particles.size < this.maxParticles) {
+                        this.createParticle();
+                    }
+                }, 600);
+
+                this.cleanupInterval = setInterval(() => {
+                    this.cleanupParticles();
+                }, 10000);
+            }
+
+            createParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 25 + 20) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+
+                this.container.appendChild(particle);
+                this.particles.add(particle);
+
+                // Auto-remove after animation
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.remove();
+                        this.particles.delete(particle);
+                    }
+                }, 50000);
+            }
+
+            cleanupParticles() {
+                this.particles.forEach(particle => {
+                    if (!particle.parentNode) {
+                        this.particles.delete(particle);
+                    }
+                });
+            }
+
+            destroy() {
+                if (this.createInterval) clearInterval(this.createInterval);
+                if (this.cleanupInterval) clearInterval(this.cleanupInterval);
+                this.particles.forEach(particle => particle.remove());
+                this.particles.clear();
+            }
         }
 
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(updateParallax);
-                ticking = true;
+        // Enhanced sparkle system
+        class SparkleSystem {
+            constructor() {
+                this.container = document.querySelector('.logo-container');
+                this.sparkles = new Set();
+                this.maxSparkles = 20;
+                this.createInterval = null;
+                this.init();
             }
-        });
 
-        // Staggered animation for feature cards
-        document.querySelectorAll('.feature-card').forEach((card, index) => {
-            card.style.animationDelay = (index * 0.2) + 's';
-        });
+            init() {
+                this.createInterval = setInterval(() => {
+                    if (this.sparkles.size < this.maxSparkles) {
+                        this.createSparkle();
+                    }
+                }, 600);
+            }
 
-        // Enhanced loading animation
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 1s cubic-bezier(0.4, 0, 0.2, 1)';
+            createSparkle() {
+                const gif = document.querySelector('.main-gif');
+                if (!gif || !this.container) return;
 
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
-        });
-
-        // Enhanced hover effects with 3D transforms for feature cards
-        document.querySelectorAll('.feature-card').forEach(card => {
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) rotateX(0deg) rotateY(0deg) scale(1)';
-            });
-
-            card.addEventListener('mousemove', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
                 
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-                
-                this.style.transform = `translateY(-12px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-            });
-        });
+                const rect = gif.getBoundingClientRect();
+                const containerRect = this.container.getBoundingClientRect();
+
+                const x = (rect.left - containerRect.left) + Math.random() * (rect.width + 60) - 30;
+                const y = (rect.top - containerRect.top) + Math.random() * (rect.height + 60) - 30;
+
+                sparkle.style.left = x + 'px';
+                sparkle.style.top = y + 'px';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+
+                this.container.appendChild(sparkle);
+                this.sparkles.add(sparkle);
+
+                setTimeout(() => {
+                    if (sparkle.parentNode) {
+                        sparkle.remove();
+                        this.sparkles.delete(sparkle);
+                    }
+                }, 2000);
+            }
+
+            destroy() {
+                if (this.createInterval) clearInterval(this.createInterval);
+                this.sparkles.forEach(sparkle => sparkle.remove());
+                this.sparkles.clear();
+            }
+        }
+
+        // Performance optimized parallax
+        class ParallaxController {
+            constructor() {
+                this.ticking = false;
+                this.gif = document.querySelector('.main-gif');
+                this.init();
+            }
+
+            init() {
+                window.addEventListener('scroll', () => {
+                    if (!this.ticking) {
+                        requestAnimationFrame(() => this.updateParallax());
+                        this.ticking = true;
+                    }
+                }, { passive: true });
+            }
+
+            updateParallax() {
+                if (this.gif) {
+                    const scrolled = window.pageYOffset;
+                    this.gif.style.transform = `translateY(${scrolled * 0.05}px) rotate(${scrolled * 0.02}deg)`;
+                }
+                this.ticking = false;
+            }
+        }
+
+        // Enhanced 3D card effects
+        class CardEffects {
+            constructor() {
+                this.cards = document.querySelectorAll('.feature-card');
+                this.init();
+            }
+
+            init() {
+                this.cards.forEach(card => {
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateY(0) rotateX(0deg) rotateY(0deg) scale(1)';
+                    });
+
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        
+                        const rotateX = (y - centerY) / 20;
+                        const rotateY = (centerX - x) / 20;
+                        
+                        card.style.transform = `translateY(-12px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                    });
+                });
+            }
+        }
 
         // Enhanced background interaction
-        document.addEventListener('mousemove', (e) => {
-            const spotlight = document.querySelector('.spotlight-bg');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            spotlight.style.transform = `translate(${x * 20}px, ${y * 20}px) scale(${1 + (x * 0.02)})`;
-        });
+        class BackgroundInteraction {
+            constructor() {
+                this.spotlight = document.querySelector('.spotlight-bg');
+                this.init();
+            }
 
-        // Add subtle text animations
-        const title = document.querySelector('.title');
-        if (title) {
-            let titleTicking = false;
-            title.addEventListener('mousemove', (e) => {
-                if (!titleTicking) {
-                    window.requestAnimationFrame(() => {
-                        const rect = title.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const factor = x / rect.width;
-                        title.style.background = `linear-gradient(${100 + (factor * 70)}deg, #f5f5f7, #a1a1a6)`;
-                        title.style.webkitBackgroundClip = 'text';
-                        titleTicking = false;
-                    });
-                    titleTicking = true;
+            init() {
+                document.addEventListener('mousemove', (e) => {
+                    const x = e.clientX / window.innerWidth;
+                    const y = e.clientY / window.innerHeight;
+                    
+                    this.spotlight.style.transform = `translate(${x * 20}px, ${y * 20}px) scale(${1 + (x * 0.02)})`;
+                }, { passive: true });
+            }
+        }
+
+        // Enhanced title animation
+        class TitleAnimation {
+            constructor() {
+                this.title = document.querySelector('.title');
+                this.init();
+            }
+
+            init() {
+                if (!this.title) return;
+
+                let ticking = false;
+                this.title.addEventListener('mousemove', (e) => {
+                    if (!ticking) {
+                        requestAnimationFrame(() => {
+                            const rect = this.title.getBoundingClientRect();
+                            const x = e.clientX - rect.left;
+                            const factor = x / rect.width;
+                            this.title.style.background = `linear-gradient(${100 + (factor * 70)}deg, var(--text-primary), var(--text-secondary))`;
+                            this.title.style.webkitBackgroundClip = 'text';
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
+
+                this.title.addEventListener('mouseleave', () => {
+                    this.title.style.background = `linear-gradient(135deg, var(--text-primary), var(--text-secondary))`;
+                    this.title.style.webkitBackgroundClip = 'text';
+                });
+            }
+        }
+
+        // Staggered animations
+        class StaggeredAnimations {
+            constructor() {
+                this.cards = document.querySelectorAll('.feature-card');
+                this.init();
+            }
+
+            init() {
+                this.cards.forEach((card, index) => {
+                    card.style.animationDelay = (index * 0.2) + 's';
+                });
+            }
+        }
+
+        // Loading and initialization
+        class App {
+            constructor() {
+                this.particleSystem = null;
+                this.sparkleSystem = null;
+                this.parallaxController = null;
+                this.cardEffects = null;
+                this.backgroundInteraction = null;
+                this.titleAnimation = null;
+                this.staggeredAnimations = null;
+                this.init();
+            }
+
+            init() {
+                // Wait for DOM to be ready
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => this.start());
+                } else {
+                    this.start();
                 }
-            });
+            }
 
-            title.addEventListener('mouseleave', () => {
-                title.style.background = `linear-gradient(135deg, #f5f5f7, #a1a1a6)`;
-                title.style.webkitBackgroundClip = 'text';
+            start() {
+                // Initialize all systems
+                this.particleSystem = new ParticleSystem();
+                this.sparkleSystem = new SparkleSystem();
+                this.parallaxController = new ParallaxController();
+                this.cardEffects = new CardEffects();
+                this.backgroundInteraction = new BackgroundInteraction();
+                this.titleAnimation = new TitleAnimation();
+                this.staggeredAnimations = new StaggeredAnimations();
+
+                // Show content after loading
+                setTimeout(() => {
+                    document.body.classList.remove('loading');
+                    document.body.classList.add('loaded');
+                }, 100);
+
+                // Handle page visibility changes for performance
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        this.pauseAnimations();
+                    } else {
+                        this.resumeAnimations();
+                    }
+                });
+            }
+
+            pauseAnimations() {
+                // Pause heavy animations when page is not visible
+                if (this.particleSystem) {
+                    this.particleSystem.destroy();
+                }
+                if (this.sparkleSystem) {
+                    this.sparkleSystem.destroy();
+                }
+            }
+
+            resumeAnimations() {
+                // Resume animations when page becomes visible
+                this.particleSystem = new ParticleSystem();
+                this.sparkleSystem = new SparkleSystem();
+            }
+        }
+
+        // Initialize the app
+        new App();
+
+        // Service Worker registration for offline capabilities
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
             });
         }
     </script>
