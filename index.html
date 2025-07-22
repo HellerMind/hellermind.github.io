@@ -599,6 +599,67 @@
                 color: black;
             }
         }
+        /* הוספת עיצוב מתקדם לכפתורי ההורדה */
+        .cta-buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.18rem;
+            padding: 20px 40px;
+            border-radius: var(--border-radius-sm);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark), var(--primary-darker));
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 8px 30px var(--shadow-primary), 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
+            transition: all 0.3s var(--transition-smooth);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: -0.005em;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .cta-button .cta-icon {
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+        }
+        .cta-button.download-apk {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: #fff;
+        }
+        .cta-button.google-play {
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            color: #fff;
+        }
+        .cta-button.download-apk:hover {
+            background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+            transform: translateY(-3px) scale(1.04) rotate(-1deg);
+            box-shadow: 0 15px 50px #38f9d744, 0 0 0 1px #43e97b33, inset 0 1px 0 #43e97b55;
+        }
+        .cta-button.google-play:hover {
+            background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
+            transform: translateY(-3px) scale(1.04) rotate(1deg);
+            box-shadow: 0 15px 50px #0072ff44, 0 0 0 1px #00c6ff33, inset 0 1px 0 #00c6ff55;
+        }
+        @media (max-width: 600px) {
+            .cta-buttons-wrapper {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .cta-button {
+                width: 100%;
+                justify-content: center;
+                font-size: 1.05rem;
+                padding: 16px 0;
+            }
+        }
     </style>
 </head>
 <body class="loading">
@@ -645,6 +706,18 @@
             </section>
 
             <section class="cta-section">
+                <div class="cta-buttons-wrapper">
+                    <a href="#" class="cta-button download-apk" aria-label="Download APK directly">
+                        <span class="cta-icon">⬇️</span> Download APK
+                    </a>
+                    <a href="#" class="cta-button google-play" aria-label="Get it on Google Play" target="_blank" rel="noopener">
+                        <span class="cta-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+                                <path d="M3.89 2.32C3.5 2.5 3.25 2.91 3.25 3.36V20.64C3.25 21.09 3.5 21.5 3.89 21.68L13.19 12.99L3.89 2.32ZM15.04 14.81L5.7 23.13C6.01 23.29 6.39 23.29 6.7 23.13L20.11 15.13C20.5 14.91 20.5 14.36 20.11 14.14L15.04 14.81ZM20.11 8.87L6.7 0.87C6.39 0.71 6.01 0.71 5.7 0.87L15.04 9.19L20.11 8.87ZM21.25 12C21.25 11.59 21.01 11.22 20.64 11.04L15.04 12L20.64 12.96C21.01 12.78 21.25 12.41 21.25 12Z" fill="#fff"/>
+                            </svg>
+                        </span> Google Play
+                    </a>
+                </div>
                 <a href="#" class="cta-button" aria-label="Learn more about HellerMind coming soon">Coming Soon: Privacy First, Always Offline.</a>
             </section>
         </main>
