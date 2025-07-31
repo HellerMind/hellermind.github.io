@@ -552,6 +552,166 @@
             }
         }
 
+        /* Phone Mockup Styles */
+        .phone-mockup-section {
+            padding: var(--spacing-xxl) var(--spacing-md);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+        }
+
+        .phone-mockup-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-frame {
+            position: relative;
+            width: 280px;
+            height: 560px;
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+            border-radius: 40px;
+            padding: 8px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            animation: phoneFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes phoneFloat {
+            0%, 100% { 
+                transform: translateY(0) rotateY(0deg); 
+            }
+            50% { 
+                transform: translateY(-20px) rotateY(5deg); 
+            }
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .phone-placeholder {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: var(--spacing-lg);
+        }
+
+        .placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.6;
+            animation: placeholderPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes placeholderPulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .phone-placeholder h3 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .phone-placeholder p {
+            font-size: 1rem;
+            margin-bottom: var(--spacing-md);
+            line-height: 1.5;
+        }
+
+        .placeholder-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-xs);
+            font-size: 0.9rem;
+            opacity: 0.7;
+            padding: var(--spacing-sm);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: #000000;
+            border-radius: 0 0 15px 15px;
+            z-index: 10;
+        }
+
+        .phone-home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+        }
+
+        /* Phone mockup responsive design */
+        @media (max-width: 768px) {
+            .phone-frame {
+                width: 240px;
+                height: 480px;
+            }
+            
+            .phone-notch {
+                width: 100px;
+                height: 20px;
+            }
+            
+            .phone-home-indicator {
+                width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .phone-frame {
+                width: 200px;
+                height: 400px;
+            }
+            
+            .phone-placeholder h3 {
+                font-size: 1.2rem;
+            }
+            
+            .phone-placeholder p {
+                font-size: 0.9rem;
+            }
+            
+            .placeholder-icon {
+                font-size: 3rem;
+            }
+        }
+
         /* Reduced motion support */
         @media (prefers-reduced-motion: reduce) {
             *,
@@ -703,6 +863,28 @@
                         Experience seamless, lightning-fast navigation and instant access to your gallery—optimized to run smoothly and efficiently, entirely offline.
                     </p>
                 </article>
+            </section>
+
+            <section class="phone-mockup-section">
+                <div class="phone-mockup-container">
+                    <div class="phone-frame">
+                        <div class="phone-screen">
+                            <div class="phone-content">
+                                <div class="phone-placeholder">
+                                    <div class="placeholder-icon">📱</div>
+                                    <h3>App Screenshots</h3>
+                                    <p>Your application screenshots will appear here</p>
+                                    <div class="placeholder-hint">
+                                        <span>💡</span>
+                                        <span>Add your app screenshots to showcase the interface</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phone-notch"></div>
+                        <div class="phone-home-indicator"></div>
+                    </div>
+                </div>
             </section>
 
             <section class="cta-section">
