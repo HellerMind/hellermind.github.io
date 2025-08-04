@@ -3,67 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="HellerMind - The Ultimate Private AI-Powered Photo Gallery. Secure, offline, and cloud-free photo management with advanced AI recognition.">
-    <meta name="keywords" content="AI photo gallery, private photo management, offline photo storage, secure photo gallery, AI photo recognition">
-    <meta name="author" content="HellerMind">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="HellerMind - Private AI Photo Gallery">
-    <meta property="og:description" content="The Ultimate Private AI-Powered Photo Gallery—Secure, Offline, and Cloud-Free.">
+    <meta name="description" content="WebLLM - Local AI Chat with Qwen3-0.6B">
+    <meta name="keywords" content="AI chat, local AI, Qwen3, WebLLM, browser AI">
+    <meta name="author" content="WebLLM">
+    <meta property="og:title" content="WebLLM - Local AI Chat">
+    <meta property="og:description" content="Chat with Qwen3-0.6B locally in your browser">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://hellermind.com">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="HellerMind - Private AI Photo Gallery">
-    <meta name="twitter:description" content="The Ultimate Private AI-Powered Photo Gallery—Secure, Offline, and Cloud-Free.">
     
-    <title>HellerMind - AI Gallery</title>
-    
-    <!-- Preload critical resources -->
-    <link rel="preload" href="image/loading_gif.gif" as="image">
-    <link rel="preload" href="image/logo.gif" as="image">
+    <title>WebLLM - Local AI Chat</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
     
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="/manifest.json">
-    
     <style>
-        /* CSS Custom Properties for better maintainability */
         :root {
-            --primary-color: #007aff;
-            --primary-dark: #005cbf;
-            --primary-darker: #004494;
-            --text-primary: #f5f5f7;
-            --text-secondary: #a1a1a6;
-            --text-muted: #86868b;
-            --bg-primary: #000000;
-            --bg-secondary: rgba(255, 255, 255, 0.05);
-            --bg-hover: rgba(255, 255, 255, 0.08);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --border-hover: rgba(255, 255, 255, 0.2);
-            --shadow-primary: rgba(0, 122, 255, 0.4);
-            --shadow-secondary: rgba(0, 122, 255, 0.2);
-            --shadow-tertiary: rgba(0, 122, 255, 0.1);
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-darker: #4338ca;
+            --accent-color: #8b5cf6;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --bg-hover: rgba(99, 102, 241, 0.1);
+            --border-color: #334155;
+            --border-hover: #475569;
+            --shadow-primary: rgba(99, 102, 241, 0.3);
+            --shadow-secondary: rgba(139, 92, 246, 0.2);
+            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --gradient-secondary: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-            --border-radius: 20px;
-            --border-radius-sm: 16px;
+            --border-radius: 16px;
+            --border-radius-sm: 12px;
             --spacing-xs: 8px;
             --spacing-sm: 16px;
             --spacing-md: 24px;
             --spacing-lg: 32px;
             --spacing-xl: 48px;
-            --spacing-xxl: 64px;
         }
 
-        /* Reset and base styles */
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        *::before,
-        *::after {
             box-sizing: border-box;
         }
 
@@ -74,976 +57,538 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            overflow-x: hidden;
             background: var(--bg-primary);
             min-height: 100vh;
             color: var(--text-primary);
-            font-weight: 300;
-            letter-spacing: 0.01em;
+            font-weight: 400;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
+            overflow-x: hidden;
         }
 
-        /* Focus styles for accessibility */
-        :focus {
-            outline: 2px solid var(--primary-color);
-            outline-offset: 2px;
-        }
-
-        /* Skip to main content for screen readers */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 6px;
-            background: var(--primary-color);
-            color: white;
-            padding: 8px;
-            text-decoration: none;
-            border-radius: 4px;
-            z-index: 1000;
-            transition: top 0.3s;
-        }
-
-        .skip-link:focus {
-            top: 6px;
-        }
-
-        /* Enhanced spotlight background with better performance */
-        .spotlight-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                radial-gradient(
-                    ellipse 200% 70% at 50% 0%,
-                    rgba(240, 244, 250, 0.8) 0%,
-                    rgba(80, 120, 160, 0.3) 30%,
-                    rgba(0, 122, 255, 0.1) 50%,
-                    transparent 80%
-                ),
-                radial-gradient(
-                    ellipse 100% 100% at 50% 50%,
-                    transparent 50%,
-                    rgba(0, 0, 0, 0.9) 100%
-                );
-            background-repeat: no-repeat;
-            background-size: cover;
-            z-index: -1;
-            animation: breathe 8s ease-in-out infinite;
-            will-change: transform, opacity;
-        }
-
-        @keyframes breathe {
-            0%, 100% { 
-                transform: scale(1); 
-                opacity: 0.8; 
-            }
-            50% { 
-                transform: scale(1.02); 
-                opacity: 1; 
-            }
-        }
-
-        /* Optimized floating particles */
-        .floating-particles {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            pointer-events: none;
-            will-change: transform;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            animation: float 30s infinite linear;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-            will-change: transform, opacity;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% { opacity: 0.4; }
-            90% { opacity: 0.4; }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Main container */
         .container {
-            position: relative;
-            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* Enhanced header */
         .header {
             text-align: center;
-            padding: var(--spacing-xxl) var(--spacing-md) var(--spacing-xl);
-            animation: fadeInDown 1.5s ease-out;
-        }
-
-        .logo-container {
             margin-bottom: var(--spacing-xl);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+            padding: var(--spacing-lg) 0;
         }
 
-        .title {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: 100;
-            color: var(--text-primary);
-            margin-bottom: var(--spacing-md);
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 2px 20px rgba(255, 255, 255, 0.1);
-            animation: titleGlow 4s ease-in-out infinite;
-            will-change: filter;
+            margin-bottom: var(--spacing-sm);
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
-        @keyframes titleGlow {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.1); }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px var(--shadow-primary)); }
+            to { filter: drop-shadow(0 0 30px var(--shadow-secondary)); }
         }
 
         .subtitle {
-            font-size: clamp(1.1rem, 4vw, 1.4rem);
             color: var(--text-secondary);
+            font-size: 1.1rem;
             font-weight: 300;
-            letter-spacing: 0.005em;
-            max-width: 700px;
-            margin: 0 auto var(--spacing-xl);
-            line-height: 1.5;
-            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
         }
 
-        /* Enhanced main content */
-        .main-content {
+        .chat-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: var(--spacing-xl) var(--spacing-md);
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* Improved features grid */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-xxl);
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        /* Enhanced feature cards */
-        .feature-card {
-            background: linear-gradient(135deg, var(--bg-secondary), rgba(255, 255, 255, 0.02));
-            backdrop-filter: blur(25px) saturate(180%);
+            background: var(--bg-secondary);
             border-radius: var(--border-radius);
-            padding: var(--spacing-xxl) var(--spacing-xl);
-            text-align: center;
             border: 1px solid var(--border-color);
-            transition: all 0.5s var(--transition-smooth);
-            animation: fadeInUp 1.5s ease-out;
-            position: relative;
             overflow: hidden;
-            transform-style: preserve-3d;
-            will-change: transform;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
         }
 
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        .chat-header {
+            padding: var(--spacing-md);
+            background: var(--gradient-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
         }
 
-        .feature-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(0, 122, 255, 0.05), transparent);
-            opacity: 0;
-            transition: opacity 0.5s ease;
+        .model-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
         }
 
-        .feature-card:hover::after {
-            opacity: 1;
+        .model-badge {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        .feature-card:hover {
-            transform: translateY(-12px) rotateX(5deg);
-            background: linear-gradient(135deg, var(--bg-hover), rgba(255, 255, 255, 0.03));
-            border-color: var(--border-hover);
-            box-shadow: 
-                0 25px 80px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .feature-icon {
-            font-size: 3.5rem;
-            margin-bottom: var(--spacing-lg);
-            display: block;
-            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
-            animation: iconFloat 3s ease-in-out infinite;
-            will-change: transform;
-        }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .feature-title {
-            font-size: 1.6rem;
-            color: var(--text-primary);
-            margin-bottom: var(--spacing-md);
-            font-weight: 400;
-            letter-spacing: -0.01em;
-            line-height: 1.2;
-            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-description {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            font-size: 1.1rem;
-            font-weight: 300;
-            letter-spacing: 0.005em;
-            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Enhanced CTA section */
-        .cta-section {
-            text-align: center;
-            margin-top: var(--spacing-xl);
-            position: relative;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark), var(--primary-darker));
-            color: #ffffff;
-            padding: 22px 55px;
-            border-radius: var(--border-radius-sm);
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: 500;
-            transition: all 0.4s var(--transition-smooth);
-            box-shadow: 
-                0 8px 30px var(--shadow-primary),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-            letter-spacing: -0.005em;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-            will-change: transform;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.8s var(--transition-smooth);
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 
-                0 15px 50px var(--shadow-primary),
-                0 0 0 1px rgba(255, 255, 255, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.25);
-        }
-
-        .cta-button:active {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 
-                0 8px 25px var(--shadow-primary),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        /* Enhanced footer */
-        .footer {
-            text-align: center;
-            padding: var(--spacing-xxl) var(--spacing-md);
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            font-weight: 300;
-            letter-spacing: 0.01em;
-            position: relative;
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        }
-
-        /* Enhanced animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Enhanced divider */
-        .divider {
-            width: 120px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.1), transparent);
-            margin: 50px auto;
-            position: relative;
-            border-radius: 1px;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: 50%;
-            transform: translateX(-50%);
+        .status-indicator {
             width: 8px;
             height: 8px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3));
             border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        
-        /* Enhanced main GIF */
-        .main-gif {
-            width: clamp(120px, 15vw, 150px);
-            height: clamp(120px, 15vw, 150px);
-            border-radius: 50%;
-            box-shadow: 
-                0 12px 40px var(--shadow-primary),
-                0 0 30px var(--shadow-secondary),
-                0 0 60px var(--shadow-tertiary);
-            animation: mainGifPulse 4s ease-in-out infinite;
-            border: 3px solid rgba(0, 122, 255, 0.3);
-            position: relative;
-            overflow: hidden;
-            will-change: transform;
+            background: #10b981;
+            animation: pulse 2s infinite;
         }
 
-        @keyframes mainGifPulse {
-            0%, 100% { 
-                transform: scale(1);
-                box-shadow: 0 12px 40px var(--shadow-primary), 0 0 30px var(--shadow-secondary), 0 0 60px var(--shadow-tertiary);
-            }
-            50% { 
-                transform: scale(1.08);
-                box-shadow: 0 20px 60px var(--shadow-primary), 0 0 50px var(--shadow-secondary), 0 0 100px var(--shadow-tertiary);
-            }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
-        /* Enhanced sparkles */
-        .sparkle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: sparkle 2s ease-in-out infinite;
-            will-change: transform, opacity;
+        .chat-messages {
+            flex: 1;
+            padding: var(--spacing-md);
+            overflow-y: auto;
+            max-height: 60vh;
         }
 
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
+        .message {
+            margin-bottom: var(--spacing-md);
+            animation: slideIn 0.3s ease-out;
         }
 
-        /* Loading state */
-        .loading {
-            opacity: 0;
-            transition: opacity 0.5s ease;
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .loaded {
-            opacity: 1;
+        .message.user {
+            text-align: right;
         }
 
-        /* Enhanced responsive design */
-        @media (max-width: 768px) {
-            .features {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-md);
-            }
-            .feature-card {
-                padding: var(--spacing-xl) var(--spacing-lg);
-            }
-            .header {
-                padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                padding: 50px var(--spacing-md) 30px;
-            }
-            .feature-card {
-                padding: var(--spacing-lg) var(--spacing-md);
-            }
-            .cta-button {
-                padding: 18px 45px;
-                font-size: 1.1rem;
-            }
-        }
-
-        /* Reduced motion support */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* High contrast mode support */
-        @media (prefers-contrast: high) {
-            :root {
-                --text-primary: #ffffff;
-                --text-secondary: #cccccc;
-                --border-color: rgba(255, 255, 255, 0.3);
-            }
-        }
-
-        /* Dark mode support (already dark, but for consistency) */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-primary: #000000;
-                --text-primary: #f5f5f7;
-            }
-        }
-
-        /* Print styles */
-        @media print {
-            .spotlight-bg,
-            .floating-particles,
-            .sparkle {
-                display: none;
-            }
-            
-            body {
-                background: white;
-                color: black;
-            }
-            
-            .feature-card {
-                border: 1px solid #ccc;
-                background: white;
-                color: black;
-            }
-        }
-        /* הוספת עיצוב מתקדם לכפתורי ההורדה */
-        .cta-buttons-wrapper {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-        }
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.18rem;
-            padding: 20px 40px;
+        .message-content {
+            display: inline-block;
+            max-width: 80%;
+            padding: var(--spacing-sm) var(--spacing-md);
             border-radius: var(--border-radius-sm);
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark), var(--primary-darker));
-            color: #fff;
-            font-weight: 600;
-            box-shadow: 0 8px 30px var(--shadow-primary), 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
-            transition: all 0.3s var(--transition-smooth);
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: -0.005em;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            word-wrap: break-word;
         }
-        .cta-button .cta-icon {
-            font-size: 1.5em;
+
+        .message.user .message-content {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .message.assistant .message-content {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .message.thinking .message-content {
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .typing-indicator {
             display: flex;
+            gap: 4px;
+            padding: var(--spacing-sm) var(--spacing-md);
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .input-container {
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: flex-end;
+        }
+
+        .input-field {
+            flex: 1;
+            min-height: 60px;
+            max-height: 200px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            outline: none;
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .input-field:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--shadow-primary);
+        }
+
+        .send-button {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            min-width: 80px;
+        }
+
+        .send-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--shadow-primary);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
         }
-        .cta-button.download-apk {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: #fff;
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
-        .cta-button.google-play {
-            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
-            color: #fff;
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: var(--spacing-lg);
         }
-        .cta-button.download-apk:hover {
-            background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
-            transform: translateY(-3px) scale(1.04) rotate(-1deg);
-            box-shadow: 0 15px 50px #38f9d744, 0 0 0 1px #43e97b33, inset 0 1px 0 #43e97b55;
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        .cta-button.google-play:hover {
-            background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
-            transform: translateY(-3px) scale(1.04) rotate(1deg);
-            box-shadow: 0 15px 50px #0072ff44, 0 0 0 1px #00c6ff33, inset 0 1px 0 #00c6ff55;
+
+        .loading-text {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
         }
-        @media (max-width: 600px) {
-            .cta-buttons-wrapper {
-                flex-direction: column;
-                gap: 16px;
+
+        .loading-progress {
+            width: 300px;
+            height: 4px;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .loading-bar {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .error-message {
+            background: #dc2626;
+            color: white;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-sm);
+            margin: var(--spacing-md);
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
             }
-            .cta-button {
-                width: 100%;
-                justify-content: center;
-                font-size: 1.05rem;
-                padding: 16px 0;
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .chat-messages {
+                max-height: 50vh;
+            }
+            
+            .message-content {
+                max-width: 90%;
             }
         }
     </style>
 </head>
-<body class="loading">
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    
-    <div class="spotlight-bg" aria-hidden="true"></div>
-    <div class="floating-particles" aria-hidden="true"></div>
-
-    <div class="container">
-        <header class="header">
-            <div class="logo-container">
-                <img src="image/loading_gif.gif" alt="AI Animation - HellerMind Logo" class="main-gif" loading="eager">
-            </div>
-            <h1 class="title">HellerMind</h1>
-            <div class="divider" aria-hidden="true"></div>
-            <p class="subtitle">The Ultimate Private AI-Powered Photo Gallery—Secure, Offline, and Cloud-Free.</p>
-        </header>
-
-        <main id="main-content" class="main-content">
-            <section class="features" aria-label="Key Features">
-                <article class="feature-card">
-                    <span class="feature-icon" role="img" aria-label="Security">🔒</span>
-                    <h3 class="feature-title">Absolute Privacy & Security</h3>
-                    <p class="feature-description">
-                        Your photos remain exclusively on your device, protected by our cloud-free, offline technology—ensuring total confidentiality and unmatched data safety.
-                    </p>
-                </article>
-
-                <article class="feature-card">
-                    <span class="feature-icon" role="img" aria-label="AI Technology">🤖</span>
-                    <h3 class="feature-title">Advanced AI Recognition</h3>
-                    <p class="feature-description">
-                        Instantly organize, identify, and search your photos using powerful built-in AI, without ever connecting to the internet.
-                    </p>
-                </article>
-
-                <article class="feature-card">
-                    <span class="feature-icon" role="img" aria-label="Performance">⚡</span>
-                    <h3 class="feature-title">Blazing-Fast & Intuitive</h3>
-                    <p class="feature-description">
-                        Experience seamless, lightning-fast navigation and instant access to your gallery—optimized to run smoothly and efficiently, entirely offline.
-                    </p>
-                </article>
-            </section>
-
-            <section class="cta-section">
-                <div class="cta-buttons-wrapper">
-                    <a href="https://github.com/HellerMind/hellermind.github.io/releases/download/v1.0/HellerMind.-.AI.Gallery.apk" class="cta-button download-apk" aria-label="Download APK directly">
-                        <span class="cta-icon">⬇️</span> Download APK (Beta)
-                    </a>
-                    <a href="#" class="cta-button google-play" aria-label="Get it on Google Play" target="_blank" rel="noopener">
-                        <span class="cta-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
-                                <path d="M3.89 2.32C3.5 2.5 3.25 2.91 3.25 3.36V20.64C3.25 21.09 3.5 21.5 3.89 21.68L13.19 12.99L3.89 2.32ZM15.04 14.81L5.7 23.13C6.01 23.29 6.39 23.29 6.7 23.13L20.11 15.13C20.5 14.91 20.5 14.36 20.11 14.14L15.04 14.81ZM20.11 8.87L6.7 0.87C6.39 0.71 6.01 0.71 5.7 0.87L15.04 9.19L20.11 8.87ZM21.25 12C21.25 11.59 21.01 11.22 20.64 11.04L15.04 12L20.64 12.96C21.01 12.78 21.25 12.41 21.25 12Z" fill="#fff"/>
-                            </svg>
-                        </span> Google Play (Soon)
-                    </a>
-                </div>
-<a href="https://github.com/HellerMind/hellermind.github.io/releases/download/v1.0/HellerMind.-.AI.Gallery.apk" class="cta-button" aria-label="Download HellerMind Beta Version" target="_blank" rel="noopener noreferrer">
-  🚀 Try Now Beta – Experience the Future Now
-</a>
-            </section>
-        </main>
-
-        <footer class="footer">
-            <p>© 2024 HellerMind. Your Private, Intelligent Photo Gallery—Secure, Offline, and Exclusively Yours.</p>
-        </footer>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading Qwen3-0.6B Model...</div>
+        <div class="loading-progress">
+            <div class="loading-bar" id="loadingBar"></div>
+        </div>
+        <div class="loading-text" id="loadingStatus">Initializing...</div>
     </div>
 
-    <script>
-        // Performance optimized particle system
-        class ParticleSystem {
+    <div class="container">
+        <div class="header">
+            <div class="logo">WebLLM</div>
+            <div class="subtitle">Local AI Chat with Qwen3-0.6B</div>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="model-info">
+                    <div class="status-indicator"></div>
+                    <div class="model-badge">Qwen3-0.6B</div>
+                    <span style="color: var(--text-secondary);">Ready</span>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message assistant">
+                    <div class="message-content">
+                        Hello! I'm Qwen3-0.6B, running locally in your browser. How can I help you today?
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea 
+                        class="input-field" 
+                        id="messageInput" 
+                        placeholder="Type your message here..."
+                        rows="1"
+                    ></textarea>
+                    <button class="send-button" id="sendButton">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.15.0/dist/transformers.min.js';
+
+        class WebLLM {
             constructor() {
-                this.container = document.querySelector('.floating-particles');
-                this.particles = new Set();
-                this.maxParticles = 50;
-                this.createInterval = null;
-                this.cleanupInterval = null;
-                this.init();
-            }
-
-            init() {
-                this.createInterval = setInterval(() => {
-                    if (this.particles.size < this.maxParticles) {
-                        this.createParticle();
-                    }
-                }, 600);
-
-                this.cleanupInterval = setInterval(() => {
-                    this.cleanupParticles();
-                }, 10000);
-            }
-
-            createParticle() {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-
-                const size = Math.random() * 4 + 2;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDuration = (Math.random() * 25 + 20) + 's';
-                particle.style.animationDelay = Math.random() * 5 + 's';
-
-                this.container.appendChild(particle);
-                this.particles.add(particle);
-
-                // Auto-remove after animation
-                setTimeout(() => {
-                    if (particle.parentNode) {
-                        particle.remove();
-                        this.particles.delete(particle);
-                    }
-                }, 50000);
-            }
-
-            cleanupParticles() {
-                this.particles.forEach(particle => {
-                    if (!particle.parentNode) {
-                        this.particles.delete(particle);
-                    }
-                });
-            }
-
-            destroy() {
-                if (this.createInterval) clearInterval(this.createInterval);
-                if (this.cleanupInterval) clearInterval(this.cleanupInterval);
-                this.particles.forEach(particle => particle.remove());
-                this.particles.clear();
-            }
-        }
-
-        // Enhanced sparkle system
-        class SparkleSystem {
-            constructor() {
-                this.container = document.querySelector('.logo-container');
-                this.sparkles = new Set();
-                this.maxSparkles = 20;
-                this.createInterval = null;
-                this.init();
-            }
-
-            init() {
-                this.createInterval = setInterval(() => {
-                    if (this.sparkles.size < this.maxSparkles) {
-                        this.createSparkle();
-                    }
-                }, 600);
-            }
-
-            createSparkle() {
-                const gif = document.querySelector('.main-gif');
-                if (!gif || !this.container) return;
-
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
+                this.model = null;
+                this.isLoading = true;
+                this.isGenerating = false;
+                this.currentMessage = '';
                 
-                const rect = gif.getBoundingClientRect();
-                const containerRect = this.container.getBoundingClientRect();
+                this.initializeElements();
+                this.bindEvents();
+                this.loadModel();
+            }
 
-                const x = (rect.left - containerRect.left) + Math.random() * (rect.width + 60) - 30;
-                const y = (rect.top - containerRect.top) + Math.random() * (rect.height + 60) - 30;
+            initializeElements() {
+                this.loadingScreen = document.getElementById('loadingScreen');
+                this.loadingBar = document.getElementById('loadingBar');
+                this.loadingStatus = document.getElementById('loadingStatus');
+                this.chatMessages = document.getElementById('chatMessages');
+                this.messageInput = document.getElementById('messageInput');
+                this.sendButton = document.getElementById('sendButton');
+            }
 
-                sparkle.style.left = x + 'px';
-                sparkle.style.top = y + 'px';
-                sparkle.style.animationDelay = Math.random() * 2 + 's';
-
-                this.container.appendChild(sparkle);
-                this.sparkles.add(sparkle);
-
-                setTimeout(() => {
-                    if (sparkle.parentNode) {
-                        sparkle.remove();
-                        this.sparkles.delete(sparkle);
+            bindEvents() {
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                this.messageInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
                     }
-                }, 2000);
-            }
+                });
 
-            destroy() {
-                if (this.createInterval) clearInterval(this.createInterval);
-                this.sparkles.forEach(sparkle => sparkle.remove());
-                this.sparkles.clear();
-            }
-        }
-
-        // Performance optimized parallax
-        class ParallaxController {
-            constructor() {
-                this.ticking = false;
-                this.gif = document.querySelector('.main-gif');
-                this.init();
-            }
-
-            init() {
-                window.addEventListener('scroll', () => {
-                    if (!this.ticking) {
-                        requestAnimationFrame(() => this.updateParallax());
-                        this.ticking = true;
-                    }
-                }, { passive: true });
-            }
-
-            updateParallax() {
-                if (this.gif) {
-                    const scrolled = window.pageYOffset;
-                    this.gif.style.transform = `translateY(${scrolled * 0.05}px) rotate(${scrolled * 0.02}deg)`;
-                }
-                this.ticking = false;
-            }
-        }
-
-        // Enhanced 3D card effects
-        class CardEffects {
-            constructor() {
-                this.cards = document.querySelectorAll('.feature-card');
-                this.init();
-            }
-
-            init() {
-                this.cards.forEach(card => {
-                    card.addEventListener('mouseleave', () => {
-                        card.style.transform = 'translateY(0) rotateX(0deg) rotateY(0deg) scale(1)';
-                    });
-
-                    card.addEventListener('mousemove', (e) => {
-                        const rect = card.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        
-                        const centerX = rect.width / 2;
-                        const centerY = rect.height / 2;
-                        
-                        const rotateX = (y - centerY) / 20;
-                        const rotateY = (centerX - x) / 20;
-                        
-                        card.style.transform = `translateY(-12px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-                    });
+                // Auto-resize textarea
+                this.messageInput.addEventListener('input', () => {
+                    this.messageInput.style.height = 'auto';
+                    this.messageInput.style.height = Math.min(this.messageInput.scrollHeight, 200) + 'px';
                 });
             }
-        }
 
-        // Enhanced background interaction
-        class BackgroundInteraction {
-            constructor() {
-                this.spotlight = document.querySelector('.spotlight-bg');
-                this.init();
-            }
-
-            init() {
-                document.addEventListener('mousemove', (e) => {
-                    const x = e.clientX / window.innerWidth;
-                    const y = e.clientY / window.innerHeight;
+            async loadModel() {
+                try {
+                    this.updateLoadingStatus('Loading Qwen3-0.6B model...', 20);
                     
-                    this.spotlight.style.transform = `translate(${x * 20}px, ${y * 20}px) scale(${1 + (x * 0.02)})`;
-                }, { passive: true });
-            }
-        }
-
-        // Enhanced title animation
-        class TitleAnimation {
-            constructor() {
-                this.title = document.querySelector('.title');
-                this.init();
-            }
-
-            init() {
-                if (!this.title) return;
-
-                let ticking = false;
-                this.title.addEventListener('mousemove', (e) => {
-                    if (!ticking) {
-                        requestAnimationFrame(() => {
-                            const rect = this.title.getBoundingClientRect();
-                            const x = e.clientX - rect.left;
-                            const factor = x / rect.width;
-                            this.title.style.background = `linear-gradient(${100 + (factor * 70)}deg, var(--text-primary), var(--text-secondary))`;
-                            this.title.style.webkitBackgroundClip = 'text';
-                            ticking = false;
-                        });
-                        ticking = true;
-                    }
-                });
-
-                this.title.addEventListener('mouseleave', () => {
-                    this.title.style.background = `linear-gradient(135deg, var(--text-primary), var(--text-secondary))`;
-                    this.title.style.webkitBackgroundClip = 'text';
-                });
-            }
-        }
-
-        // Staggered animations
-        class StaggeredAnimations {
-            constructor() {
-                this.cards = document.querySelectorAll('.feature-card');
-                this.init();
-            }
-
-            init() {
-                this.cards.forEach((card, index) => {
-                    card.style.animationDelay = (index * 0.2) + 's';
-                });
-            }
-        }
-
-        // Loading and initialization
-        class App {
-            constructor() {
-                this.particleSystem = null;
-                this.sparkleSystem = null;
-                this.parallaxController = null;
-                this.cardEffects = null;
-                this.backgroundInteraction = null;
-                this.titleAnimation = null;
-                this.staggeredAnimations = null;
-                this.init();
-            }
-
-            init() {
-                // Wait for DOM to be ready
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', () => this.start());
-                } else {
-                    this.start();
-                }
-            }
-
-            start() {
-                // Initialize all systems
-                this.particleSystem = new ParticleSystem();
-                this.sparkleSystem = new SparkleSystem();
-                this.parallaxController = new ParallaxController();
-                this.cardEffects = new CardEffects();
-                this.backgroundInteraction = new BackgroundInteraction();
-                this.titleAnimation = new TitleAnimation();
-                this.staggeredAnimations = new StaggeredAnimations();
-
-                // Show content after loading
-                setTimeout(() => {
-                    document.body.classList.remove('loading');
-                    document.body.classList.add('loaded');
-                }, 100);
-
-                // Handle page visibility changes for performance
-                document.addEventListener('visibilitychange', () => {
-                    if (document.hidden) {
-                        this.pauseAnimations();
-                    } else {
-                        this.resumeAnimations();
-                    }
-                });
-            }
-
-            pauseAnimations() {
-                // Pause heavy animations when page is not visible
-                if (this.particleSystem) {
-                    this.particleSystem.destroy();
-                }
-                if (this.sparkleSystem) {
-                    this.sparkleSystem.destroy();
-                }
-            }
-
-            resumeAnimations() {
-                // Resume animations when page becomes visible
-                this.particleSystem = new ParticleSystem();
-                this.sparkleSystem = new SparkleSystem();
-            }
-        }
-
-        // Initialize the app
-        new App();
-
-        // Service Worker registration for offline capabilities
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('SW registered: ', registration);
-                    })
-                    .catch(registrationError => {
-                        console.log('SW registration failed: ', registrationError);
+                    // Load the model
+                    this.model = await pipeline('text-generation', 'Qwen/Qwen2.5-0.5B-Instruct', {
+                        quantized: true,
+                        progress_callback: (progress) => {
+                            this.updateLoadingProgress(progress);
+                        }
                     });
-            });
+
+                    this.updateLoadingStatus('Model loaded successfully!', 100);
+                    
+                    setTimeout(() => {
+                        this.hideLoadingScreen();
+                    }, 1000);
+
+                } catch (error) {
+                    console.error('Error loading model:', error);
+                    this.showError('Failed to load model. Please refresh the page.');
+                }
+            }
+
+            updateLoadingStatus(status, progress) {
+                this.loadingStatus.textContent = status;
+                this.loadingBar.style.width = progress + '%';
+            }
+
+            updateLoadingProgress(progress) {
+                const percentage = Math.round(progress * 100);
+                this.loadingBar.style.width = percentage + '%';
+            }
+
+            hideLoadingScreen() {
+                this.loadingScreen.classList.add('hidden');
+                this.isLoading = false;
+            }
+
+            showError(message) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = message;
+                document.body.appendChild(errorDiv);
+            }
+
+            async sendMessage() {
+                if (this.isLoading || this.isGenerating) return;
+
+                const message = this.messageInput.value.trim();
+                if (!message) return;
+
+                // Add user message
+                this.addMessage(message, 'user');
+                this.messageInput.value = '';
+                this.messageInput.style.height = 'auto';
+
+                // Start generating response
+                this.isGenerating = true;
+                this.sendButton.disabled = true;
+
+                try {
+                    await this.generateResponse(message);
+                } catch (error) {
+                    console.error('Error generating response:', error);
+                    this.addMessage('Sorry, I encountered an error. Please try again.', 'assistant');
+                } finally {
+                    this.isGenerating = false;
+                    this.sendButton.disabled = false;
+                }
+            }
+
+            async generateResponse(prompt) {
+                const assistantMessage = this.addMessage('', 'assistant');
+                const messageContent = assistantMessage.querySelector('.message-content');
+
+                // Add thinking indicator
+                const thinkingDiv = document.createElement('div');
+                thinkingDiv.className = 'message thinking';
+                thinkingDiv.innerHTML = '<div class="message-content">Thinking...</div>';
+                this.chatMessages.appendChild(thinkingDiv);
+
+                try {
+                    // Generate response with streaming
+                    const response = await this.model(prompt, {
+                        max_new_tokens: 512,
+                        temperature: 0.7,
+                        do_sample: true,
+                        streamer: {
+                            onToken: (token) => {
+                                // Remove thinking indicator
+                                if (thinkingDiv.parentNode) {
+                                    thinkingDiv.remove();
+                                }
+
+                                // Add token to response
+                                messageContent.textContent += token;
+                                this.scrollToBottom();
+                            }
+                        }
+                    });
+
+                    // Remove thinking indicator if still present
+                    if (thinkingDiv.parentNode) {
+                        thinkingDiv.remove();
+                    }
+
+                } catch (error) {
+                    // Remove thinking indicator
+                    if (thinkingDiv.parentNode) {
+                        thinkingDiv.remove();
+                    }
+                    throw error;
+                }
+
+                this.scrollToBottom();
+            }
+
+            addMessage(content, type) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${type}`;
+                messageDiv.innerHTML = `<div class="message-content">${content}</div>`;
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+                return messageDiv;
+            }
+
+            scrollToBottom() {
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
         }
+
+        // Initialize the app when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new WebLLM();
+        });
     </script>
 </body>
 </html>
